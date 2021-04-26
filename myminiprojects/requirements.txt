@@ -14,3 +14,4 @@ sklearn-crfsuite==0.3.6
 websockets==8.1
 whitenoise==5.2.0
 yfinance==0.1.55
+dj_database_url==0.5.0
