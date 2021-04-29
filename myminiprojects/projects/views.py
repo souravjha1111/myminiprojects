@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
-from .forms import TitanicForm, StockForm
+from .forms import TitanicForm, StockForm,IplForm
 from sklearn.metrics import r2_score
 from sklearn.preprocessing import LabelEncoder
 import pandas as pd
@@ -10,7 +10,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LinearRegression
 from datetime import datetime
 import yfinance as yf
+import pandas as pd
+import numpy as np
 import pickle
+
 trend = "stable"
 test_data=[]
 def titanic(request):
@@ -89,6 +92,46 @@ def titanic(request):
 
 
 ##################################################################################################################
+"""'toss_winner', 'toss_decision','inning', 'batting_team', 'bowling_team',
+ 'over', 'ball', 'expected_wickets_till_this_over','venue_choice'
+"""
+def ipl(request):
+    if request.method == 'POST':
+        form = IplForm(request.POST)
+        if form.is_valid():
+            main_x = [[0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,  0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0]]
+            toss_winner = int(form.cleaned_data['toss_winner'])
+            toss_decision = int(form.cleaned_data['toss_decision'])
+            inning = int(form.cleaned_data['inning'])
+            batting_team = int(form.cleaned_data['batting_team'])
+            bowling_team = int(form.cleaned_data['bowling_team'])
+            over = form.cleaned_data['over']
+            
+            ball = form.cleaned_data['ball']
+            expected_wickets = form.cleaned_data['expected_wickets']
+            venue_choice = int(form.cleaned_data['venue_choice'])
+            with open('projects/over-by-over-score-lr-model.pkl','rb') as file:
+                response = pickle.load(file)
+            main_x = [[0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,  0,0,0,0,0,0,0,0,0, inning,over,ball,expected_wickets,11,toss_decision,venue_choice]]
+            main_x[0][toss_winner] = 1
+            main_x[0][batting_team] = 1
+            main_x[0][bowling_team] = 1
+            result = int(response.predict(main_x)[0][0])
+            print(main_x)
+            context = {
+                    "result" : result,
+                    "wickets" : expected_wickets,
+                    "over" : over,
+                    "balls":ball
+            }
+        return render(request, 'projects/IPL_result.html',context)
+    else:
+        form = IplForm()
+        return render(request, 'projects/IPL.html', {'form': form})
+
+
+
+
 
 def stock(request):
     if request.method == 'POST':
@@ -182,3 +225,5 @@ def stock(request):
 
 def url_shortner(request):
     return redirect('https://visit-to.herokuapp.com/')
+
+
