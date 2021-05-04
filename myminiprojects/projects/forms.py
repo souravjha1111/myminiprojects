@@ -1,24 +1,22 @@
 from django import forms
 
 class TitanicForm(forms.Form):
-    Age = forms.IntegerField(label='Your age', max_value=999,min_value=0)
-    Gender = forms.CharField(label='please type M or F')
-    Parch = forms.IntegerField(label='Your parch', max_value=999,min_value=0)
-    Pclass = forms.IntegerField(label = 'Enter your class as 1 or 2 or 3',min_value=1, max_value=3)
-    SibSp = forms.IntegerField(label='enter number of familiy members from 0 to 8',max_value=8, min_value=0)
-    Embarked = forms.CharField(label = 'enter embarked status')
-    Fare = forms.IntegerField(label = 'your price in $ btw 7$ to 150$')
+    Age = forms.IntegerField(label='Your age', max_value=999,min_value=0, initial=0)
+    Gender = forms.CharField(label='Your Gender As M & F (as male and female)', initial='M')
+    Parch = forms.IntegerField(label='Number of parents/children you might take to titanic with you', max_value=999,min_value=0, initial=0)
+    Pclass = forms.IntegerField(label = 'Enter your class category 1 or 2 or 3',min_value=1, max_value=3, initial=3)
+    SibSp = forms.IntegerField(label='Number of siblings/spouses you might take to titanic with you',max_value=8, min_value=0, initial=0)
+    Embarked = forms.CharField(label = 'Port of Embarkation as Q(for Queenstown), S(for Southampton) & C (for Cherbourg)', initial='Q')
+    Fare = forms.IntegerField(label = 'your price in $ btw 7$ to 150$', initial=7)
     class Meta:
         fields = ['Age', 'Gender', 'Parch', 'SibSp', 'Embarked', 'Fare']
 
 
 class StockForm(forms.Form):
-    stock_name = forms.CharField(label='Enter stock initials')
-    day_hour = forms.CharField(label = 'enter 1d or 1h')
+    stock_name = forms.CharField(label='Enter NYSE Stock Initials (e.g tsla, NFLX, amzn)')
+    day_hour = forms.CharField(label = 'Enter 1d or 1h (for 1 day or 1 hour)')
     class Meta:
         fields = ['stock_name', 'day_hour']
-
-
 
 
 innings_choice =(
@@ -77,9 +75,6 @@ venue_choice =(
     ('16','Sardar Patel Stadium, Motera'),
     ('5','Himachal Pradesh Cricket Association Stadium'),
     ('2','Shaheed Veer Narayan Singh International Stadium'))
-
-
-
 
 class IplForm(forms.Form):
     toss_winner = forms.ChoiceField(label='Toss winner',choices = toss_winner_team)

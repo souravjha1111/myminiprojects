@@ -3,7 +3,7 @@
 <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 
 
-<h1>Predicted price for "{{stock_name}}" is ${{ y_pred }} stock_name </h1>
+<h1 style="color: aliceblue;">Predicted price for "{{stock_name}}" is ${{ y_pred }}</h1>
 <br>
 <div>
     <p style="color: aliceblue">
@@ -11,33 +11,9 @@
   <a href="https://en.wikipedia.org/wiki/Market_trend"><b>{{trend}}</b></a> tred. Which is calculated by 
   taking average growth of 20 days' as <b>faster-moving average</b> and 50 days' average as moving average
   as <b>slower-moving average</b>. <br>
-  Thus if 20-days' moving average goes up and crosses 50- days' moving average, it will show a
+  Thus if 20-days' moving average goes up and crosses 50-days' moving average, it will show a
   bullish market since it indicates an upward trend in the past 20-days’ stocks. Whereas, 
   if the 20-days' moving average goes below the 50-days' moving average, it will be bearish 
   since it means that the stocks fell in the past 20-days      
 </p>
-<div class="myChart"></div>
-<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
-<script>
-  zingchart.render({
-    id: 'myChart',
-    data: {
-      type: 'line',
-      series: [
-        { values: [54,23,34,23,43] },
-        { values: [10,15,16,20,40] }
-      ]
-    }
-  });
-</script>
-
-
-<!--  {% with name="World" %}     
-<html>
-<div>Hello {{name}} {{stock_name}}!</div>
-</html>
-{% endwith %}-->
-
-
-
 {% endblock content %}

@@ -38,6 +38,7 @@ def titanic(request):
             Embarked = form.cleaned_data['Embarked']
             Fare = form.cleaned_data['Fare']            
             test_data = [Pclass, gender_final, Age, SibSp, Parch, Fare,embarked_final ]            
+#i wasn't aware of pickel at this time
             train_df = pd.read_csv('projects/train.csv')
             combine = [train_df]
             for dataset in combine:
@@ -81,10 +82,9 @@ def titanic(request):
             random_forest.fit(train_df_x, train_df_y)
             y_pred = random_forest.predict([test_data])
             if y_pred[0]==1:
-                survived = 'Congo buddy you will survive'
+                survived = 'Congo buddy you will survive on titanic'
             else:
-                survived = 'sorry, you did not make it'
-            messages.success(request, f'your result will be given shortly')
+                survived = 'sorry, you will not surive'
             return render(request, 'projects/titanic_result.html', {'result': survived})
     else:
         form = TitanicForm()
